@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { devtools } from "zustand/middleware";
 import axios from 'axios';
 import { CryptoCurrenciesResponseSchema } from "./schema/crypto-schema";
 import type { CryptoCurrency } from "./types";
@@ -10,7 +11,7 @@ type CryptoState = {
 };
 
 async function getCryptos(){
-    const url = 'https://data-api.coindesk.com/asset/v1/top/list?page_size=10&sort_by=CIRCULATING_MKT_CAP_USD&sort_direction=DESC&groups=ID,BASIC&toplist_quote_asset=USD&api_key=MiApiKey';
+    const url = 'https://data-api.coindesk.com/asset/v1/top/list?page_size=20&sort_by=CIRCULATING_MKT_CAP_USD&sort_direction=DESC&groups=ID,BASIC&toplist_quote_asset=USD&api_key=MiApiKey';
     
     const { data: { Data: { LIST: cryptos } } } = await axios.get(url);
     const result = CryptoCurrenciesResponseSchema.safeParse(cryptos);
@@ -20,7 +21,7 @@ async function getCryptos(){
     throw new Error('Invalid data format');
 }
 
-export const useCryptoStore = create<CryptoState>((set) => ({
+export const useCryptoStore = create<CryptoState>()(devtools((set) => ({
     cryptocurrencies: [],
     fetchCryptos: async () => {
         try {
@@ -31,4 +32,4 @@ export const useCryptoStore = create<CryptoState>((set) => ({
             set({ cryptocurrencies: [] });
         }
     }
-}));
+})));
