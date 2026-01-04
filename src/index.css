@@ -79,6 +79,9 @@ body {
 
 .result-wrapper{
   margin-top: 5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .result-wrapper h2{
   text-align: center;

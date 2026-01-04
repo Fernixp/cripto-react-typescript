@@ -2,10 +2,12 @@ import { useMemo } from "react";
 import { useCryptoStore } from "../store";
 
 import { formatCurrency } from "../helpers";
+import { Spinner } from "./Spinner";
 export default function CryptoPriceDisplay() {
     const result = useCryptoStore((state) => state.result);
     const pair = useCryptoStore((state) => state.pair); // Obtenemos la selección
     const cryptocurrencies = useCryptoStore((state) => state.cryptocurrencies);
+    const loading = useCryptoStore((state) => state.loading);
     const hasResult = useMemo(() => {
         /* Verificamos si el objeto tiene al menos una propiedad */
         return Object.keys(result).length > 0;
@@ -17,7 +19,9 @@ export default function CryptoPriceDisplay() {
     }, [pair.criptocurrency, cryptocurrencies]);
     return (
         <div className="result-wrapper">
-            {hasResult && (
+            {loading ? (
+                <Spinner />
+            ) : hasResult && (
                 <>
                     <h2>Cotización</h2>
                     <div className="result">
