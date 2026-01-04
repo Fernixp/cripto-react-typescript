@@ -20,7 +20,7 @@ export const PairSchema = z.object({
   criptocurrency: z.string(),
 });
 
-export const PriceDetailSchema = z.object({
+export const CryptoPriceSchema = z.object({
   // --- Datos de Tiempo y Referencia ---
   VALUE_LAST_UPDATE_TS: z.number(), // Timestamp Unix de la última actualización (segundos)
   INSTRUMENT: z.string(),           // El par consultado (ej. BTC-USD)

@@ -1,17 +1,19 @@
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
-import type { CryptoCurrency, Pair } from "./types";
+import type { CryptoCurrency, CryptoPrice, Pair } from "./types";
 import { getCryptos, getCryptoPrice } from "./services/CryptoService";
 
 /* Definiendo el tipo para el estado */
 type CryptoState = {
   cryptocurrencies: CryptoCurrency[];
+  result: CryptoPrice;
   fetchCryptos: () => Promise<void>
-  getCryptoPrice: (pair: Pair) => Promise<any>
+  getCryptoPrice: (pair: Pair) => Promise<void>
 };
 
 export const useCryptoStore = create<CryptoState>()(devtools((set) => ({
     cryptocurrencies: [],
+    result: {} as CryptoPrice,
     fetchCryptos: async () => {
         try {
             const data = await getCryptos();
@@ -23,8 +25,10 @@ export const useCryptoStore = create<CryptoState>()(devtools((set) => ({
     },
     getCryptoPrice: async (pair: Pair) => {
         try {
-            const data = await getCryptoPrice(pair);
-            return data;
+            const result = await getCryptoPrice(pair);
+            set(() => ({
+                result
+            }));
         } catch (error) {
             console.error('Error fetching crypto price:', error);
             return null;
