@@ -6,6 +6,7 @@ export const CurrencySchema = z.object({
 });
 
 export const CryptoCurrencyResponseSchema = z.object({
+    ID: z.number(),
     NAME: z.string(), //Bitcoin
     SYMBOL: z.string(), //BTC
     LOGO_URL: z.string(),
@@ -13,3 +14,8 @@ export const CryptoCurrencyResponseSchema = z.object({
   });
 
 export const CryptoCurrenciesResponseSchema = z.array(CryptoCurrencyResponseSchema);
+
+export const PairSchema = z.object({
+  currency: z.string(),
+  criptocurrency: z.string(),
+});
