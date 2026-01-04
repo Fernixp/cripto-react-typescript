@@ -1,5 +1,6 @@
 import axios from "axios";
-import { CryptoCurrenciesResponseSchema } from "../schema/crypto-schema";
+import { CryptoCurrenciesResponseSchema, PriceDetailSchema } from "../schema/crypto-schema";
+import type { Pair } from "../types";
 
 export async function getCryptos() {
   const url =
@@ -15,4 +16,22 @@ export async function getCryptos() {
     return result.data;
   }
   throw new Error("Invalid data format");
+}
+
+export async function getCryptoPrice(pair: Pair) {
+  // 1. Construimos la llave dinámica correctamente
+  const instrument = `${pair.criptocurrency}-${pair.currency}`;
+  const url = `https://data-api.coindesk.com/index/cc/v1/latest/tick?market=cadli&instruments=${instrument}&apply_mapping=true&api_key=MiApiKey`;
+  
+  const { data: { Data } } = await axios.get(url);
+
+  const targetData = Data[instrument];
+
+  const result = PriceDetailSchema.safeParse(targetData);
+
+  if (result.success) {
+    return result.data;
+  }
+  console.error(result.error.issues);
+  throw new Error("Invalid price data format");
 }

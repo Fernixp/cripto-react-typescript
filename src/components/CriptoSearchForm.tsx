@@ -6,7 +6,8 @@ import ErrorMessage from "./ErrorMessage";
 
 const CriptoSearchForm = () => {
   const cryptocurrencies = useCryptoStore((state) => state.cryptocurrencies);
-
+  const getCryptoPrice = useCryptoStore((state) => state.getCryptoPrice);
+  
   const [pair, setPair] = useState<Pair>({
     currency: "",
     criptocurrency: "",
@@ -22,7 +23,7 @@ const CriptoSearchForm = () => {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const value = Object.values(pair).every((p) => p !== "");
     if (!value) {
@@ -30,6 +31,10 @@ const CriptoSearchForm = () => {
       return;
     }
     setError("");
+    
+    // Call the store function to get crypto price
+    const result = await getCryptoPrice(pair);
+    console.log("Crypto price result:", result);  
   };
 
   return (
