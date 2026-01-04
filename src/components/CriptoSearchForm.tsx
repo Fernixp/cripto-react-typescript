@@ -31,10 +31,8 @@ const CriptoSearchForm = () => {
       return;
     }
     setError("");
-    
     // Call the store function to get crypto price
-    const result = await getCryptoPrice(pair);
-    console.log("Crypto price result:", result);  
+    await getCryptoPrice(pair); 
   };
 
   return (
@@ -67,7 +65,7 @@ const CriptoSearchForm = () => {
           <option value="">-- Seleccione --</option>
           {cryptocurrencies.map((c) => (
             <option key={c.ID} value={c.SYMBOL}>
-              {c.NAME}
+              {c.NAME} - ({c.SYMBOL})
             </option>
           ))}
         </select>
