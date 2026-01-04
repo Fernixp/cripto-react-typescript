@@ -1,10 +1,13 @@
 function App() {
 
   return (
-    <>
-        <h1>Cripto App - Bienvenido a tu aplicación de criptomonedas</h1>
-        <p>Explora el mundo de las criptomonedas con nuestra plataforma intuitiva y segura.</p>
-    </>
+    <div className="container">
+        <h1 className="app-title">Cotizador de <span>Criptomonedas</span></h1>
+
+        <div className="content"> 
+          Formulario
+        </div>
+    </div>
   )
 }
 
